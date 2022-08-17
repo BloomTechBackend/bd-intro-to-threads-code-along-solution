@@ -30,6 +30,9 @@ public class MagicEightBallDao {
 
     /********************************************************************************************
      * Return a random response
+     *
+     * @returns an answer String
+     * @throws InterruptedException
      ********************************************************************************************/
      public String getResponse() throws InterruptedException {
          // Instantiate a Random object for use in generating a ramdom response index

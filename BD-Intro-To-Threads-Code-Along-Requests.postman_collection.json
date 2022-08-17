@@ -1,0 +1,72 @@
+{
+	"info": {
+		"_postman_id": "d4da08bd-3820-4ca1-ad30-936996fe7f27",
+		"name": "BD-Intro-To-Threads-Code-Along-Requests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17319489"
+	},
+	"item": [
+		{
+			"name": "POST-with-JSON-Array",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"questions\": [\n\t\t\"Will it rain today?\",\n\t\t\"Should I find a better source for my answers?\",\n\t\t\"Will Harry Potter give me his glasses?\",\n\t\t\"Will I ever be as smart as Hermoine in Harry Potter?\",\n\t\t\"Will Ron in Harry Potter cut his hair?\",\n\t\t\"Is Star Trek better than Star Wars?\",\n\t\t\"Is Star Wars better than Star Trek?\",\n\t\t\"Can I stop time and not grow old?\",\n\t\t\"Will all the traffic signals be green today?\",\n\t\t\"Will the Magic 8 Ball end up in the trash if it doesn’t give me the answer I want?\",\n\t\t\"Will I be a billionaire or millionaire one day?\",\n\t\t\"Is there enough money in my future?\",\n\t\t\"Will I get a sudden fortune or lottery luck?\",\n\t\t\"Can I expect any type of surprises this week?\",\n\t\t\"Should I wear red today?\",\n\t\t\"Should I avoid asking the Magic 8 Ball too many questions?\",\n\t\t\"Should I let the Magic 8 Ball guide me?\",\n\t\t\"Should I trust the Magic 8 Ball?\",\n\t\t\"Is there a pot of gold at the end of a rainbow?\",\n\t\t\"Does the light in the refrigerator really go out when the door closes?\",\n\t\t\"Is Schrödinger's cat really dead?\",\n\t\t\"Is Schrödinger's cat really alive?\",\n\t\t\"If you describe something as indescribable, haven’t you already described it?\",\n\t\t\"If you expect the unexpected, doesn’t that make the unexpected expected?\",\n\t\t\"Is your answer to this question ‘no’?\",\n\t\t\"Isn’t the word ‘queue’ just the letter Q followed by four silent letters?\",\n\t\t\"If you had fun while you were wasting time, can you still say that you wasted time?\",\n\t\t\"Do you consider eyebrows facial hair?\",\n\t\t\"Can you stand backwards on a flight of stairs?\",\n\t\t\"If tomatoes are a fruit, is ketchup considered a smoothie?\",\n\t\t\"If you had a dream that none of your dreams would come true, and you woke up and had none of your real-life dreams come true, would that be a dream come true?\",\n\t\t\"If everyone says that life is unfair, doesn’t that mean that life is fair?\",\n\t\t\"If nothing is impossible, then would it be possible for something to be impossible?\",\n\t\t\"If a word is misspelled in the dictionary, will we ever know it?\"\n\t]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/magic8ball/ask?question=would Spock code in Java?",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"magic8ball",
+						"ask"
+					],
+					"query": [
+						{
+							"key": "question",
+							"value": "would Spock code in Java?"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "sample_question",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
