@@ -40,17 +40,40 @@ public class MagicEightBallController {
 
         long requestStartTime = System.currentTimeMillis();       // Record start time of process
 
-        List<MagicEightBallResponse> answers = new ArrayList<>(); // Data store for responses
+        // Data store for responses
+        List<MagicEightBallResponse> answers = new ArrayList<>();
 
-        int questionNumber = 0;  // Used to enumerate questions from the input array as they are processed
+        // Hold Threads in order to wait for all of them to complete
+        List<Thread> ask8BallThreads = new ArrayList<>();
 
-        // Loop through the array of questions received with the request
+        // Hold the objects interacting with the Magic8Ball
+        //      so we can get the responses from them when thier thread completes
+        List<AskThe8Ball> questionsFor8Ball = new ArrayList<>();
+
+        // Used to enumerate questions from the input array as they are processed
+        int questionNumber = 0;
+
+        // Loop through the questions received
         for (String aQuestion : theRequest.getQuestions()) {
-            // Instantiate an object to interact with the Magic8Ball
-            AskThe8Ball theMagic8Ball = new AskThe8Ball(++questionNumber, aQuestion);
+            // Instantiate an object to interact with the Magic 8 Ball with a question
+            AskThe8Ball askThe8Ball = new AskThe8Ball(++questionNumber, aQuestion);
+            // Store the object so we can extract the resonse when its Thread completes
+            questionsFor8Ball.add(askThe8Ball);
 
-            // ask the question and store answer in response
-            answers.add(theMagic8Ball.shakeAndTurnOver());
+            // Instantiate and start a Thread on which to run the Magic 8 Ball interaction object
+            Thread aThread = new Thread(askThe8Ball);  // Instantiate Thread and assign it the askThe8Ball object
+            ask8BallThreads.add(aThread);              // Remember the Thread so we can wait for it to complete
+            aThread.start();                           // Start the Thread
+        }
+
+        // Now that all the Threads have been started, we need to wait for them to complete
+        // before we can copy the response to the list of responses we are returning
+        waitForThreadsToComplete(ask8BallThreads);
+
+        // Now that all Threads have completed, we can copy the responses of their askthe8Ball processes
+        //     to the list of responses we are returning
+        for(AskThe8Ball an8BallInteration : questionsFor8Ball) {
+            answers.add(an8BallInteration.getTheResponse());
         }
 
         // Sort the responses in ascending responses times
@@ -100,8 +123,10 @@ public class MagicEightBallController {
 
     /**
      * Nested class for obtaining a response from the magnificent Magic 8 Ball
+     *
+     * Make the class able to run on a Thread
      */
-    class AskThe8Ball {
+    class AskThe8Ball implements Runnable {
         //    Instantiate an object to hold question response
         private MagicEightBallResponse theResponse = new MagicEightBallResponse();
 
@@ -119,6 +144,16 @@ public class MagicEightBallController {
             return theResponse;
         }
 
+        public void run() {
+            try {
+                this.shakeAndTurnOver();
+            } catch (InterruptedException | CloneNotSupportedException e) {
+                theResponse.setReturnCode(500);
+                theResponse.setProcessingMessage("Error interacting with Magic 8 Ball");
+                e.printStackTrace();
+            }
+        }
+
         // Obtain a response from the Magic8Ball
         public MagicEightBallResponse shakeAndTurnOver() throws InterruptedException, CloneNotSupportedException {
             // Remember when processing started
@@ -134,5 +169,23 @@ public class MagicEightBallController {
             return theResponse.clone();
         }  // End of shakeAndTurnOver() method
     }  // End of AskThe8Ball class
+
+    /**
+     * Helper method to wait for all Threads to complete before resuming
+     *
+     * Makes the thread calling this method wait until all passed in threads are done executing before proceeding.
+     *
+     * @param threads to wait on
+     * @throws InterruptedException
+     *
+     * the .join() method will wait until a Thread is complete before resuming execution
+     *
+     */
+    private void waitForThreadsToComplete(List<Thread> threads) throws InterruptedException {
+        // Go through the List of threads we started and wait for them all to complete
+        for (Thread thread : threads) {
+            thread.join(); // wait for the current Thread to complete before resuming processing
+        }
+    }  // End of waitForThreadsToComplete() method
 }  // End of MagicEightBallController Class
 

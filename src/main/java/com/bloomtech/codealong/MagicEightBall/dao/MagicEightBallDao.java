@@ -84,5 +84,4 @@ public class MagicEightBallDao {
             dataFileReader.close();
         }
     }  // End of loadAppData()
-
 }
