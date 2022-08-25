@@ -1,4 +1,4 @@
-# Iterators - Code-Along
+# Introduction to Threads - Code-Along
 
 This activity will be walked through by your instructor.
 
